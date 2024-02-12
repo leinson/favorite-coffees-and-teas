@@ -1,14 +1,19 @@
-export const FavoriteDrinks= ({ favorites }) => {
+import { Card, CardContent, Typography } from "@mui/material"
+
+export const FavoriteDrinks = ({ favorites }) => {
   const favoritesList = favorites.map((drink) => (
     <li key={drink.id}>
-      {drink.name}
-      <br /> {drink.weight} <br /> {drink.price} <br /> {drink.roast}{" "}
+      <Typography>
+        {drink.name}
+        <br /> {drink.weight} <br /> {drink.price} <br /> {drink.roast}
+      </Typography>
     </li>
   ))
   return (
-    <div>
-      <h2>Favorites</h2>
-      <ul>{favoritesList}</ul>
-    </div>
+    <Card>
+      <CardContent>
+        <ul>{favoritesList}</ul>
+      </CardContent>
+    </Card>
   )
 }

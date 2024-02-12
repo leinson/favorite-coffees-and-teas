@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import "./App.css"
 import { DrinkForm } from "./components/DrinkForm"
 import { FavoriteDrinks } from "./components/FavoriteDrinks"
+import { ThemeProvider } from "@emotion/react"
+import { CssBaseline, Stack } from "@mui/material"
+import theme from "./theme"
 
 interface DrinkFormInput {
   drink: string
@@ -88,9 +90,10 @@ function App() {
   }
 
   return (
-    <>
-      <h1>My favorite coffees and teas</h1>
-      <div className="card">
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Stack alignItems="center" padding={{ xs: 1, md: 4 }} spacing={3}>
+        <h1>My favorite coffee and tea</h1>
         <DrinkForm
           drinkFormData={drinkFormData}
           handleDrinkChoiceChange={handleDrinkChoiceChange}
@@ -98,10 +101,14 @@ function App() {
           handleTextChange={handleTextChange}
           addDrink={addDrink}
         />
-
-        {!favorites ? "No favorites yet" : <FavoriteDrinks favorites={favorites} />}
-      </div>
-    </>
+        <h2>Favorites</h2>
+        {!favorites ? (
+          "No favorites yet"
+        ) : (
+          <FavoriteDrinks favorites={favorites} />
+        )}
+      </Stack>
+    </ThemeProvider>
   )
 }
 
