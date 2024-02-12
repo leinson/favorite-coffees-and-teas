@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import "./App.css"
+import { DrinkForm } from "./components/DrinkForm"
 
-interface DrinkFormProps {
+interface DrinkFormInput {
   drink: string
   name: string
   weight: string
@@ -12,7 +13,7 @@ interface DrinkFormProps {
 
 function App() {
   const [favorites, setFavorites] = useState<Array<object> | null>(null)
-  const [drinkFormData, setDrinkFormData] = useState<DrinkFormProps>({
+  const [drinkFormData, setDrinkFormData] = useState<DrinkFormInput>({
     drink: "",
     name: "",
     weight: "",
@@ -35,22 +36,30 @@ function App() {
   const addDrink = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const drinkObject = {
+      id: Math.floor(Math.random() * 100000),
       drink: drinkFormData.drink,
       name: drinkFormData.name,
       weight: drinkFormData.weight,
       price: drinkFormData.price,
       roast: drinkFormData.roast,
     }
-    axios.post(`${url}/api`, drinkObject).then((response) => {
-      setFavorites(favorites.concat(response.data))
-      setDrinkFormData({
-        drink: "",
-        name: "",
-        weight: "",
-        price: "",
-        roast: "",
+    axios
+      .post(`${url}/api`, drinkObject)
+      .then((response) => {
+        console.log("response", response)
+        setFavorites(favorites.concat(response.data))
+        console.log("favoritess", favorites)
+        setDrinkFormData({
+          drink: "",
+          name: "",
+          weight: "",
+          price: "",
+          roast: "",
+        })
       })
-    })
+      .catch((error) => {
+        console.log("error handling needed. Error:", error.response.data.error)
+      })
   }
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,62 +86,14 @@ function App() {
     <>
       <h1>My favorite coffees and teas</h1>
       <div className="card">
-        <form onSubmit={addDrink}>
-          <input
-            type="radio"
-            id="drinkTea"
-            value="Tea"
-            checked={drinkFormData.drink === "Tea"}
-            onChange={handleDrinkChoiceChange}
-          />
-          <label htmlFor="drinkTea">Tea</label>
-          <input
-            type="radio"
-            id="drinkCoffee"
-            value="Coffee"
-            checked={drinkFormData.drink === "Coffee"}
-            onChange={handleDrinkChoiceChange}
-          />
-          <label htmlFor="drinkCoffee">Coffee</label>
-          <br />
-          <input
-            id="name"
-            value={drinkFormData.name}
-            onChange={handleTextChange}
-          />
-          <br />
-          <input
-            id="weight"
-            value={drinkFormData.weight}
-            onChange={handleTextChange}
-          />
-          <br />
-          <input
-            id="price"
-            value={drinkFormData.price}
-            onChange={handleTextChange}
-          />
-          <br />
-          <input
-            type="radio"
-            id="lightRoast"
-            value="Light roast"
-            checked={drinkFormData.roast === "Light roast"}
-            onChange={handleRoastChoiceChange}
-          />
-          <label htmlFor="lightRoast">Light roast</label>
-          <br />
-          <input
-            type="radio"
-            id="darkRoast"
-            value="Dark roast"
-            checked={drinkFormData.roast === "Dark roast"}
-            onChange={handleRoastChoiceChange}
-          />
-          <label htmlFor="darkRoast">Dark roast</label>
-          <br />
-          <button type="submit">add</button>
-        </form>
+        <DrinkForm
+          drinkFormData={drinkFormData}
+          handleDrinkChoiceChange={handleDrinkChoiceChange}
+          handleRoastChoiceChange={handleRoastChoiceChange}
+          handleTextChange={handleTextChange}
+          addDrink={addDrink}
+        />
+
         <p>
           {!favorites
             ? "Loading..."

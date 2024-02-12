@@ -1,15 +1,16 @@
 import express, { Request, Response } from "express"
 const app = express()
-const cors = require('cors')
+const cors = require("cors")
 
 app.use(cors())
+app.use(express.json())
 
 let favorites = [
   {
     id: 1,
-    drinkType: "coffee",
+    drink: "coffee",
     name: "Kharisma",
-    grams: "200g",
+    weight: "200g",
     price: "3€",
     roast: "Dark roast",
   },
@@ -17,6 +18,12 @@ let favorites = [
 
 app.get("/api", (req: Request, res: Response) => {
   res.json(favorites)
+})
+
+app.post("/api", (req: Request, res: Response) => {
+  const drink = req.body
+  console.log(drink)
+  res.json(drink)
 })
 
 const PORT = 3001
