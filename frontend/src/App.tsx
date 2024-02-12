@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import "./App.css"
 import { DrinkForm } from "./components/DrinkForm"
+import { FavoriteDrinks } from "./components/FavoriteDrinks"
 
 interface DrinkFormInput {
   drink: string
@@ -47,7 +48,11 @@ function App() {
       .post(`${url}/api`, drinkObject)
       .then((response) => {
         console.log("response", response)
-        setFavorites(favorites.concat(response.data))
+        if (favorites) {
+          setFavorites(favorites.concat(response.data))
+        } else {
+          setFavorites([response.data])
+        }
         console.log("favoritess", favorites)
         setDrinkFormData({
           drink: "",
@@ -94,17 +99,7 @@ function App() {
           addDrink={addDrink}
         />
 
-        <p>
-          {!favorites
-            ? "Loading..."
-            : favorites[0].name +
-              ", " +
-              favorites[0].weight +
-              ", " +
-              favorites[0].price +
-              ", " +
-              favorites[0].roast}
-        </p>
+        {!favorites ? "No favorites yet" : <FavoriteDrinks favorites={favorites} />}
       </div>
     </>
   )
