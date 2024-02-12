@@ -10,7 +10,8 @@ export const FavoriteDrinks = ({ favorites }) => {
     </li>
   ))
   return (
-    <Card>
+    <Card sx={{ padding: 3, borderRadius: 4 }}>
+        <Typography variant="h2">Favorites</Typography>
       <CardContent>
         <ul>{favoritesList}</ul>
       </CardContent>

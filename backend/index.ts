@@ -5,11 +5,12 @@ const cors = require("cors")
 app.use(cors())
 app.use(express.json())
 
+//placeholder already saved drink
 let favorites = [
   {
     id: 1,
     drink: "coffee",
-    name: "Kharisma",
+    name: "Example coffee",
     weight: "200g",
     price: "3€",
     roast: "Dark roast",
@@ -22,7 +23,7 @@ app.get("/api", (req: Request, res: Response) => {
 
 app.post("/api", (req: Request, res: Response) => {
   const drink = req.body
-  console.log(drink)
+  console.log("TODO, save the drink to db or file:", drink)
   res.json(drink)
 })
 

@@ -23,7 +23,7 @@ export const DrinkForm: React.FC<DrinkFormProps> = ({
   addDrink,
 }) => {
   return (
-    <Card>
+    <Card sx={{ padding: 3, borderRadius: 4 }}>
       <CardContent>
         
         <form onSubmit={addDrink}>
@@ -45,21 +45,21 @@ export const DrinkForm: React.FC<DrinkFormProps> = ({
           />
           <label htmlFor="drinkCoffee">Coffee</label>
           <br />
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">Name </label>
           <input
             id="name"
             value={drinkFormData.name}
             onChange={handleTextChange}
           />
           <br />
-          <label htmlFor="weight">Weight</label>
+          <label htmlFor="weight">Weight </label>
           <input
             id="weight"
             value={drinkFormData.weight}
             onChange={handleTextChange}
           />
           <br />
-          <label htmlFor="price">Price</label>
+          <label htmlFor="price">Price </label>
           <input
             id="price"
             value={drinkFormData.price}
